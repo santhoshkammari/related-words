@@ -1,0 +1,4 @@
+12 chunks
+Loading weights:   0%|          | 0/314 [00:00<?, ?it/s]Loading weights: 100%|██████████| 314/314 [00:00<00:00, 8909.32it/s]
+fp32 t4 (ref)                      enc    449 ms (avg 505) | cos vs fp32 1.0000 | top5 overlap 1.00
+ORT failed: ModuleNotFoundError("No module named 'onnxscript'")

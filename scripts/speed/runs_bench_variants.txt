@@ -1,0 +1,28 @@
+12 chunks
+Loading weights:   0%|          | 0/314 [00:00<?, ?it/s]Loading weights: 100%|██████████| 314/314 [00:00<00:00, 6796.18it/s]
+fp32 threads=8                     enc    580 ms (avg 782) | cos vs fp32 1.0000 | top5 overlap 1.00
+fp32 threads=4                     enc    450 ms (avg 480) | cos vs fp32 1.0000 | top5 overlap 1.00
+fp32 threads=6                     enc    480 ms (avg 544) | cos vs fp32 1.0000 | top5 overlap 1.00
+fp32 threads=2                     enc    646 ms (avg 671) | cos vs fp32 1.0000 | top5 overlap 1.00
+fp32 t8 (ref)                      enc    521 ms (avg 749) | cos vs fp32 1.0000 | top5 overlap 1.00
+fp32 t8 bs=8                       enc    617 ms (avg 796) | cos vs fp32 1.0000 | top5 overlap 1.00
+fp32 t8 bs=16                      enc    533 ms (avg 766) | cos vs fp32 1.0000 | top5 overlap 1.00
+fp32 t8 bs=64                      enc    549 ms (avg 769) | cos vs fp32 1.0000 | top5 overlap 1.00
+fp32 t8 maxlen=64                  enc    518 ms (avg 746) | cos vs fp32 1.0000 | top5 overlap 1.00
+bf16 t8                            enc   1295 ms (avg 1524) | cos vs fp32 1.0000 | top5 overlap 1.00
+~/word-sense-retrieval/scripts/bench_variants.py:41: DeprecationWarning: torch.ao.quantization is deprecated and will be removed in 2.10. 
+For migrations of users: 
+1. Eager mode quantization (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic), please migrate to use torchao eager mode quantize_ API instead 
+2. FX graph mode quantization (torch.ao.quantization.quantize_fx.prepare_fx,torch.ao.quantization.quantize_fx.convert_fx, please migrate to use torchao pt2e quantization API instead (prepare_pt2e, convert_pt2e) 
+3. pt2e quantization has been migrated to torchao (https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e) 
+see https://github.com/pytorch/ao/issues/2259 for more details
+  mq = torch.quantization.quantize_dynamic(copy.deepcopy(m), {torch.nn.Linear}, dtype=torch.qint8); report("int8 dynamic t8", mq)
+int8 dynamic t8                    enc    249 ms (avg 298) | cos vs fp32 0.9633 | top5 overlap 0.75
+~/word-sense-retrieval/scripts/bench_variants.py:42: DeprecationWarning: torch.ao.quantization is deprecated and will be removed in 2.10. 
+For migrations of users: 
+1. Eager mode quantization (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic), please migrate to use torchao eager mode quantize_ API instead 
+2. FX graph mode quantization (torch.ao.quantization.quantize_fx.prepare_fx,torch.ao.quantization.quantize_fx.convert_fx, please migrate to use torchao pt2e quantization API instead (prepare_pt2e, convert_pt2e) 
+3. pt2e quantization has been migrated to torchao (https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e) 
+see https://github.com/pytorch/ao/issues/2259 for more details
+  mbq = torch.quantization.quantize_dynamic(copy.deepcopy(m).float(), {torch.nn.Linear}, dtype=torch.qint8); mbq.max_seq_length = 64; report("int8 dynamic t8 maxlen=64", mbq)
+int8 dynamic t8 maxlen=64          enc    265 ms (avg 303) | cos vs fp32 0.9633 | top5 overlap 0.75

@@ -1,0 +1,20 @@
+12 chunks
+Loading weights:   0%|          | 0/314 [00:00<?, ?it/s]Loading weights: 100%|██████████| 314/314 [00:00<00:00, 10392.18it/s]
+fp32 t4 (ref)                      enc    445 ms (avg 537) | cos vs fp32 1.0000 | top5 overlap 1.00
+~/word-sense-retrieval/scripts/bench_variants2.py:11: DeprecationWarning: torch.ao.quantization is deprecated and will be removed in 2.10. 
+For migrations of users: 
+1. Eager mode quantization (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic), please migrate to use torchao eager mode quantize_ API instead 
+2. FX graph mode quantization (torch.ao.quantization.quantize_fx.prepare_fx,torch.ao.quantization.quantize_fx.convert_fx, please migrate to use torchao pt2e quantization API instead (prepare_pt2e, convert_pt2e) 
+3. pt2e quantization has been migrated to torchao (https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e) 
+see https://github.com/pytorch/ao/issues/2259 for more details
+  setattr(parent, n.rsplit(".", 1)[-1], torch.ao.quantization.quantize_dynamic(torch.nn.Sequential(mod), {torch.nn.Linear}, dtype=torch.qint8)[0])
+int8 FFN only (mlp)                enc    299 ms (avg 307) | cos vs fp32 0.9743 | top5 overlap 0.75
+int8 attn only                     enc    365 ms (avg 390) | cos vs fp32 0.9943 | top5 overlap 0.90
+int8 all but last 4 layers         enc    306 ms (avg 401) | cos vs fp32 0.9955 | top5 overlap 0.80
+~/word-sense-retrieval/scripts/bench_variants2.py:24: DeprecationWarning: You are using the legacy TorchScript-based ONNX export. Starting in PyTorch 2.9, the new torch.export-based ONNX exporter has become the default. Learn more about the new export logic: https://docs.pytorch.org/docs/stable/onnx_export.html. For exporting control flow: https://pytorch.org/tutorials/beginner/onnx/export_control_flow_model_to_onnx_tutorial.html
+  torch.onnx.export(W(m), (b["input_ids"], b["attention_mask"]), "/tmp/g.onnx", input_names=["input_ids", "attention_mask"], output_names=["e"],
+~/venv/lib/python3.12/site-packages/transformers/cache_utils.py:217: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  self._sliding_window_tensor = torch.tensor(self.sliding_window, dtype=torch.long)
+~/venv/lib/python3.12/site-packages/transformers/masking_utils.py:213: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if (padding_length := kv_length + kv_offset - attention_mask.shape[-1]) > 0:
+ORT failed: RuntimeError('unordered_map::at')
